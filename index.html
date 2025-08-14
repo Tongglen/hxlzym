@@ -106,10 +106,12 @@
           </tr>
 
           <tr>
-            <td>每月利润 (营收的19%):</td>
-            <!-- 每月利润 (营收的19%) 不可编辑，需要计算-->
+            <td>每月利润 (元):</td>
             <td>
-              <span id="monthlyProfit"></span>
+              <input
+                type="number"
+                id="monthlyProfit"
+                value="190000" />
             </td>
           </tr>
           <tr>
@@ -140,12 +142,12 @@
             </td>
           </tr>
           <tr>
-            <td>3个月房租金额 (元)</td>
+            <td>12个月房租金额 (元)</td>
             <td>
               <input
                 type="number"
-                id="rentPerQuarter"
-                value="100000" /> <!-- 原每年40万，改为每3个月10万 -->
+                id="rentPerYear"
+                value="400000" />
             </td>
           </tr>
         </table>
@@ -183,7 +185,7 @@
        * @param {number} monthlyProfit - 每月利润
        * @returns {Object} 包含两种回本周期和现金流数据的对象
        */
-      function calculatePaybackPeriod(totalInvestment, remainingRent, monthlyProfit, monthlyRevenue, monthlyLaborCost, monthlyElectricity, inventoryValue, rentPerQuarter) {
+      function calculatePaybackPeriod(totalInvestment, remainingRent, monthlyProfit, monthlyRevenue, monthlyLaborCost, monthlyElectricity, inventoryValue, rentPerYear) {
         // 计算每月净现金流
 
         const monthlyNetCashFlow = monthlyProfit - monthlyLaborCost - monthlyElectricity
@@ -195,7 +197,7 @@
         let paybackPeriodWithoutInventory = adjustedTotalInvestment / monthlyNetCashFlow
 
         // 计算剩余房租能用多少个月
-        const monthlyRentCost = rentPerQuarter / 3  // 修改为每3个月计算
+        const monthlyRentCost = rentPerYear / 12
         let monthsOfRemainingRent = remainingRent / monthlyRentCost
 
         // 计算总投资回本周期（考虑房租补充）和现金流趋势
@@ -221,12 +223,12 @@
             profit36Months = cumulativeCash
           }
 
-          // 如果剩余房租用完，需要补充3个月房租
+          // 如果剩余房租用完，需要补充12个月房租
           if (months >= monthsOfRemainingRent) {
-            remainingInvestment += rentPerQuarter
-            monthsOfRemainingRent += 3  // 补充后延长3个月
-            // 现金流减少3个月房租
-            cumulativeCash -= rentPerQuarter
+            remainingInvestment += rentPerYear
+            monthsOfRemainingRent += 12 // 补充后延长12个月
+            // 现金流增加12个月房租
+            cumulativeCash -= rentPerYear
           }
 
           remainingInvestment -= monthlyNetCashFlow
@@ -266,16 +268,16 @@
         const monthlyLaborCost = parseFloat(document.getElementById('monthlyLaborCost').value)
         const monthlyElectricity = parseFloat(document.getElementById('monthlyElectricity').value)
         const inventoryValue = parseFloat(document.getElementById('inventoryValue').value)
-        const rentPerQuarter = parseFloat(document.getElementById('rentPerQuarter').value)  // 改为每3个月房租
-        const monthlyProfit = monthlyRevenue * 0.19
+        const rentPerYear = parseFloat(document.getElementById('rentPerYear').value)
+        const monthlyProfit = parseFloat(document.getElementById('monthlyProfit').value)
 
         // 计算结果
-        const result = calculatePaybackPeriod(totalInvestment, remainingRent, monthlyProfit, monthlyRevenue, monthlyLaborCost, monthlyElectricity, inventoryValue, rentPerQuarter)
+        const result = calculatePaybackPeriod(totalInvestment, remainingRent, monthlyProfit, monthlyRevenue, monthlyLaborCost, monthlyElectricity, inventoryValue, rentPerYear)
 
         // 显示结果
 
         document.getElementById('monthlyNetCashFlow').textContent = result.monthlyNetCashFlow
-        document.getElementById('monthlyProfit').textContent = monthlyProfit
+        // 删除document.getElementById('monthlyProfit').textContent = monthlyProfit这行
         document.getElementById('paybackPeriodWithoutInventory').textContent = result.paybackPeriodWithoutInventory
         document.getElementById('totalPaybackPeriod').textContent = result.totalPaybackPeriod
         document.getElementById('profit24Months').textContent = result.profit24Months - totalInvestment + '元'
