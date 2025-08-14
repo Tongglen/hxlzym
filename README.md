@@ -1,2 +1,1 @@
-# chatGPT
-vscode plugin
+投资加盟店回本周期
