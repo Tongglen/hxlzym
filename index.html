@@ -168,7 +168,6 @@
        * 计算回本周期的函数
        * @param {number} totalInvestment - 总投资金额
        * @param {number} remainingRent - 剩余房租金额
-       * @param {number} monthlyRevenue - 每个月营收
        * @param {number} monthlyLaborCost - 每个月人工成本
        * @param {number} monthlyElectricity - 每个月电费
        * @param {number} inventoryValue - 仓库库存金额
@@ -176,7 +175,7 @@
        * @param {number} monthlyProfit - 每月利润
        * @returns {Object} 包含两种回本周期和现金流数据的对象
        */
-      function calculatePaybackPeriod(totalInvestment, remainingRent, monthlyProfit, monthlyRevenue, monthlyLaborCost, monthlyElectricity, inventoryValue, rentPerYear) {
+      function calculatePaybackPeriod(totalInvestment, remainingRent, monthlyProfit, monthlyLaborCost, monthlyElectricity, inventoryValue, rentPerYear) {
         // 计算每月净现金流
 
         const monthlyNetCashFlow = monthlyProfit - monthlyLaborCost - monthlyElectricity
@@ -255,7 +254,7 @@
         // 获取输入值
         const totalInvestment = parseFloat(document.getElementById('totalInvestment').value)
         const remainingRent = parseFloat(document.getElementById('remainingRent').value)
-        const monthlyRevenue = parseFloat(document.getElementById('monthlyRevenue').value)
+        // const monthlyRevenue = parseFloat(document.getElementById('monthlyRevenue').value)
         const monthlyLaborCost = parseFloat(document.getElementById('monthlyLaborCost').value)
         const monthlyElectricity = parseFloat(document.getElementById('monthlyElectricity').value)
         const inventoryValue = parseFloat(document.getElementById('inventoryValue').value)
@@ -263,7 +262,7 @@
         const monthlyProfit = parseFloat(document.getElementById('monthlyProfit').value)
 
         // 计算结果
-        const result = calculatePaybackPeriod(totalInvestment, remainingRent, monthlyProfit, monthlyRevenue, monthlyLaborCost, monthlyElectricity, inventoryValue, rentPerYear)
+        const result = calculatePaybackPeriod(totalInvestment, remainingRent, monthlyProfit, monthlyLaborCost, monthlyElectricity, inventoryValue, rentPerYear)
 
         // 显示结果
 
